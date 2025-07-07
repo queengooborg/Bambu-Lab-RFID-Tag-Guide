@@ -48,14 +48,14 @@ def strip_color_codes(input_string):
     # Use the sub method to replace the escape sequences with an empty string
     return ansi_escape.sub('', input_string)
 
-def run_command(command):
+def run_command(command, pipe=True):
     print(' '.join([str(c) for c in command]))
     try:
         # On Windows, use the shell=True argument to run the command
-        result = subprocess.run(command, shell=os.name == 'nt', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = subprocess.run(command, shell=os.name == 'nt', capture_output=pipe)
         # Check the return code to determine if the command was successful
         if result.returncode == 0 or result.returncode == 1:
-            return result.stdout.decode("utf-8").strip()
+            return result.stdout.decode("utf-8").strip() if pipe else ""
         return None
     except Exception as e:
         return None
