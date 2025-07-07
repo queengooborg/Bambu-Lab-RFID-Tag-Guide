@@ -9,7 +9,7 @@ import re
 import sys
 from pathlib import Path
 
-from .lib import strip_color_codes, get_proxmark3_location, run_command, testCommands
+from lib import strip_color_codes, get_proxmark3_location, run_command, testCommands
 
 #Global variables
 #Default name of the dictionary file we create
