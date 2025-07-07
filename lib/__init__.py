@@ -49,6 +49,7 @@ def strip_color_codes(input_string):
     return ansi_escape.sub('', input_string)
 
 def run_command(command):
+    print(' '.join(command))
     try:
         # On Windows, use the shell=True argument to run the command
         result = subprocess.run(command, shell=os.name == 'nt', stdout=subprocess.PIPE, stderr=subprocess.PIPE)

@@ -90,15 +90,8 @@ def discoverKeys(traceFilepath):
         #Run PM3 with the trace
         # -o means run without connecting to PM3 hardware
         # -c specifies commands within proxmark 3 software
-        cmd_list = [pm3Location / pm3Command,"-o","-c", f"trace load -f {traceFilepath}; trace list -1 -t mf -f {dictionaryFilepath}; exit"]
         print(f"Viewing tracelog with {len(keyList)} discovered keys")
-        print(f"pm3 {' '.join(cmd_list[1:])}")
-        result = subprocess.run(cmd_list, shell=os.name == 'nt',stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output = result.stdout
-
-
-
-        #print(output)
+        output = run_command([pm3Location / pm3Command,"-o","-c", f"trace load -f {traceFilepath}; trace list -1 -t mf -f {dictionaryFilepath}; exit"])
 
         #Loop over output, line by line to try to find a key
         #3 things we're looking for:
@@ -106,8 +99,6 @@ def discoverKeys(traceFilepath):
         #   - "probable key" a key that should work
         #   - "mf_nonce_brute" a key we need to calculate
         for line in output.splitlines():
-            line = line.decode("utf-8") #Convert from byte array to string
-
             if " key " in line or " key: " in line:
 
                 #There's a lot of whitespace in this line
@@ -196,17 +187,11 @@ def discoverKeys(traceFilepath):
 #Run the mf_nonce_brute program with the provided arguments to decode a key
 #Returns a key on success, "" otherwise
 def bruteForce(args):
-    cmd_list = [pm3Location / mfNonceBruteCommand] + args
-    print("    Running bruteforce command:")
-    print("    ",end = "")
-    print(f"tools/mf_nonce_brute {' '.join(cmd_list[1:])}")
-    result = subprocess.run(cmd_list, shell=os.name == 'nt', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print("Running bruteforce command:")
+    output = run_command([pm3Location / mfNonceBruteCommand] + args)
 
     #Parse out the key
-    output = result.stdout
     for line in output.splitlines():
-        line = line.decode("utf-8") #Convert from byte array to string
-
         #Search for the line that says valid key. Example: "Valid Key found [ 63654db94d97 ] - matches candidate"
         #In rare cases, multiple possible keys will be found. The "matches candidate" tag should indicate the right one
         if not ("Valid Key" in line and "matches candidate" in line):
