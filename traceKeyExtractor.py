@@ -91,7 +91,7 @@ def discoverKeys(traceFilepath):
         # -o means run without connecting to PM3 hardware
         # -c specifies commands within proxmark 3 software
         print(f"Viewing tracelog with {len(keyList)} discovered keys")
-        output = run_command([pm3Location / pm3Command,"-o","-c", f"trace load -f {traceFilepath}; trace list -1 -t mf -f {dictionaryFilepath}; exit"])
+        output = run_command([pm3Location / pm3Command,"-o","-c", f"trace load -f {traceFilepath}; trace list -1 -t mf -f {dictionaryFilepath}"])
 
         #Loop over output, line by line to try to find a key
         #3 things we're looking for:
