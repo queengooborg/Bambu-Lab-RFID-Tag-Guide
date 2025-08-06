@@ -15,7 +15,7 @@ If you have a Proxmark3 device, the easiest way to scan tags is using the built-
       * [Sniffing the tag data with a Proxmark3 (legacy method)](#sniffing-the-tag-data-with-a-proxmark3-legacy-method)
 <!--te-->
 
-### Dumping Tags using Proxmark3
+## Dumping Tags using Proxmark3
 
 As of Proxmark3 v4.20469, a new command has been implemented to scan a Bambu Lab RFID tag and automatically derive the keys, offering a fast, one-command way to scan tags.
 
@@ -28,7 +28,7 @@ hf mf dump
 
 This process should only take a few seconds. Once the process is complete, the dump will be saved to your current working directory.
 
-### Deriving the keys
+## Deriving the keys
 
 A way to derive the keys from the UID of an RFID tag was discovered, which unlocked the ability to scan and scrape RFID tag data without sniffing, as well as with other devices like the Flipper Zero. A script is included in the repository to derive the keys from the UID of a tag.
 
@@ -64,7 +64,7 @@ Then, use the keys file to extract the data from the RFID tag:
   5. Copy `mf_classic_dict_user.nfc` back onto your Flipper
   6. Use the NFC app to scan your tag
 
-### Proxmark3 fm11rf08s recovery script (legacy method)
+## Proxmark3 fm11rf08s recovery script (legacy method)
 
 In 2024, a new backdoor[^rfid-backdoor] was found that makes it much easier to obtain the data from the RFID tags. A script is included in the proxmark3 software since v4.18994 (nicknamed "Backdoor"), which allows us to utilize this backdoor. Before this script was implemented, the tag had to be sniffed by placing the spool in the AMS and sniffing the packets transferred between the tag and the AMS.
 
@@ -78,7 +78,7 @@ To visualize the data on the tag, run the following:
 
 `script run fm11rf08s_full -b`
 
-### Sniffing the tag data with a Proxmark3 (legacy method)
+## Sniffing the tag data with a Proxmark3 (legacy method)
 
 Before the above methods were developed, tag data had to be obtained by sniffing the data between the RFID tag and the AMS using a Proxmark3-compatible device.
 
