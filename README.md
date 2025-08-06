@@ -60,8 +60,8 @@ A lot of the contents have been deciphered, but the more data we have, the easie
   - A Proxmark3-compatible RFID reader (recommended)
     - The [proxmark3 (Iceman fork) software](https://github.com/RfidResearchGroup/proxmark3)
       - Requires v4.20469 or higher
-      - You MUST use the Iceman fork as the original version of the software is unmaintained; all instructions and scripts are written for the Iceman fork and will not work on the original version
-  - A Flipper Zero
+      - You MUST use the Iceman fork as the original version of the software is unmaintained; all instructions and scripts are written for the Iceman fork and will NOT work on the original version
+  - A Flipper Zero (limited writing capabilities)
 
 ### Proxmark3 compatible readers
 
