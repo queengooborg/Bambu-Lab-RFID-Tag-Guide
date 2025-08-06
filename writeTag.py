@@ -75,43 +75,6 @@ def getTagType():
     print(f"Checking tag type...")
     output = run_command([pm3Location / pm3Command, "-d", "1", "-c", f"hf mf info"])
 
-    output = """[=] Session log /Users/queengooborg/.proxmark3/logs/log_20250707075834.txt
-[#] Searching implicit relative paths
-[+] loaded `/Users/queengooborg/.proxmark3/preferences.json`
-[+] execute command from commandline: hf mf info; exit
-
-[+] Using UART port /dev/tty.usbmodem2101
-[+] Communicating with PM3 over USB-CDC
-[usb|script] pm3 --> hf mf info
-
-[=] --- ISO14443-a Information ---------------------
-[+]  UID: 1E 3F 30 72 
-[+] ATQA: 00 04
-[+]  SAK: 08 [1]
-[#] failed reading block
-[#] failed reading block
-
-[=] --- Keys Information
-[+] loaded 2 user keys
-[+] loaded 61 hardcoded keys
-[+] Backdoor key..... A396EFA4E24F
-[+] Block 0.... 1E3F307263080400047BA384056B8E90 | .{...k..
-
-[=] --- Fingerprint
-[+] Fudan FM11RF08S
-
-[=] --- Magic Tag Information
-[+] Magic capabilities... Gen 2 / CUID
-[+] Magic capabilities... Gen 4 GDM / USCUID ( Gen4 Magic Wakeup )
-[+] Magic capabilities... Write Once / FUID
-
-[=] --- PRNG Information
-[+] Prng....... weak
-[+] Static enc nonce... yes
-[?] Hint: Try `script run fm11rf08s_recovery.py`
-
-[usb|script] pm3 --> exit"""
-
     if 'iso14443a card select failed' in output:
         raise RuntimeError("Tag not found or is wrong type")
 
