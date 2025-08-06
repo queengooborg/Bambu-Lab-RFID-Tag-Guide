@@ -2,10 +2,10 @@ name: auto-toc-update
 on:
   push:
     branches:
-      - 'main'
+      - "main"
     paths:
-      - 'README.md'
-      - '**.yml'
+      - "**.md"
+      - "**.yml"
 
 permissions:
   contents: write
