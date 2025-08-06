@@ -10,12 +10,10 @@ This guide is written for the Proxmark3, however this may also be performed with
 <!--ts-->
    * [Requirements](#requirements)
    * [Compatible RFID tags - By generation](#compatible-rfid-tags---by-generation)
-   * [Identifying Tag Type](#identifying-tag-type)
-      * [Gen 2](#gen-2)
+   * [Automatic](#automatic)
+   * [Manual](#manual)
       * [Gen 4 FUID](#gen-4-fuid)
       * [Gen 4 UFUID](#gen-4-ufuid)
-   * [Writing Tag Dumps](#writing-tag-dumps)
-      * [Seal UFUID](#seal-ufuid)
 <!--te-->
 
 ## Requirements
