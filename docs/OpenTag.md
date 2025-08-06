@@ -28,15 +28,15 @@ OpenTag aims to standardize the following:
 # Backers
 These are companies that are implementing OpenTag into their printers, filament, add-ons, etc.  If you would like to join this list, please open an Issue on GitHub.
 * Filament Manufacturers (Sorted by date backed):
-  * [Polar Filament](https://polarfilament.com)
-  * [3D Fuel](https://www.3dfuel.com/)
-  * [Ecogenesis Biopolymers](https://ecogenesisbiopolymers.com)
-  * [Numakers](https://numakers.com/)
-  * [American Filament](https://americanfilament.us)
+  * [Polar Filament](https://polarfilament.com) (2024-02-25)
+  * [Ecogenesis Biopolymers](https://ecogenesisbiopolymers.com) (2024-09-20)
+  * [3D Fuel](https://www.3dfuel.com/) (2024-10-30)
+  * [Numakers](https://numakers.com/) (2024-11-24)
+  * [American Filament](https://americanfilament.us) (2025-01-20)
 * Printers + Hardware:
-  * [OpenSpool](https://www.youtube.com/watch?v=ah7dm-dtQ5w) ([GitHub Source](https://github.com/spuder/OpenSpool))
-  * [Cosmyx](https://www.cosmyx3d.com/)
-  * [Distrifab](https://distrifab.fr/)
+  * [OpenSpool](https://www.youtube.com/watch?v=ah7dm-dtQ5w) ([GitHub Source](https://github.com/spuder/OpenSpool)) (2024-10-23)
+  * [Cosmyx](https://www.cosmyx3d.com/) (2024-10-30)
+  * [Distrifab](https://distrifab.fr/) (2024-10-30)
 
 # Why RFID?
 What is the benefit of adding RFID chips to filament?
