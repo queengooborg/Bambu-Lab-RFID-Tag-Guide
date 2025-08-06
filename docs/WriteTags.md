@@ -38,7 +38,15 @@ There are tags known as "Magic Tags" which allow functionality that is not part 
 
 More information on the use of magic cards can be found at https://github.com/RfidResearchGroup/proxmark3/blob/master/doc/magic_cards_notes.md#mifare-classic-uscuid
 
-## Identifying Tag Type
+## Automatic
+
+A script has been provided, `writeTag.py`, which automatically detects the tag type and writes the tag dump to the tag. To run the script, perform the following (replace `/path/to/dump.bin` with the actual filepath of your dump):
+
+```sh
+python writeTag.py /path/to/dump.bin
+```
+
+## Manual
 
 To identify the type of tag you have, place your Proxmark3 on a tag, launch `pm3` in a terminal and run the following command:
 
@@ -48,10 +56,6 @@ hf mf info
 
 The tag type can be identified based upon its magic capabilities.  Note that if the tag reports no magic capabilities, it is either incompatible or has already been locked.
 
-### Gen 2
-
-Gen 2 tags are marketed as "changeable unique identifier".  Their UID can be changed by the user.
-
 ### Gen 4 FUID
 
 FUIDs are marketed as "write once UID".  They have a default UID of `AA55C396` and will allow writes to block 0 in this state. Once the UID is changed, the tag will be locked.
@@ -60,6 +64,20 @@ An unlocked tag will have the following magic capabilities:
 - Gen 2 / CUID
 - Gen 4 GDM / USCUID ( Gen4 Magic Wakeup )
 - Write Once / FUID
+
+To write a dump to the tag, run one of the following commands in `pm3` (replace `/path/to/dump.bin` with the actual filepath of your dump):
+
+Gen 4 UFUID:
+```
+hf mf cload -f /path/to/dump.bin
+```
+
+You can verify that the tag has been successfully written by running `hf mf info` again.  The UID should now match the UID of your dump.
+
+If you wish to perform a full content verification, you can run the following command:
+```
+hf mf dump --ns
+```
 
 ### Gen 4 UFUID
 
@@ -73,19 +91,8 @@ An unlocked tag will have the following magic capabilities:
 > [!WARNING]
 > UFUID tags must be sealed, which is a process that cannot be performed on the Flipper Zero; thus, UFUID tags are not compatible with the Flipper Zero for this use case.
 
-## Writing Tag Dumps
-
-> [!IMPORTANT]
-> ALWAYS CHECK THAT YOU CAN CONSISTENTLY READ YOUR TAG USING THE INFO COMMAND BEFORE ATTEMPTING TO WRITE TO THEM.
-
 To write a dump to the tag, run one of the following commands in `pm3` (replace `/path/to/dump.bin` with the actual filepath of your dump):
 
-Gen 4 UFUID:
-```
-hf mf cload -f /path/to/dump.bin
-```
-
-Other Tag Type:
 ```
 hf mf restore --force -f /path/to/dump.bin
 ```
@@ -96,8 +103,6 @@ If you wish to perform a full content verification, you can run the following co
 ```
 hf mf dump --ns
 ```
-
-### Seal UFUID
 
 Before you can use a UFUID tag on the AMS, you will need to seal the UFUID tag by issuing the following commands, otherwise it will respond to Magic Card Gen1 commands which the AMS will identify and ignore the tag. 
 
