@@ -1,4 +1,5 @@
 # Bambu Lab RFID Tag Guide
+
 This repository contains the collective research of the Bambu Lab Filament RFID Tags and serves as a guide to give you a basic overview how you can decrypt and read your tags.
 
 Please visit the [Bambu Lab RFID Library Repository](https://github.com/queengooborg/Bambu-Lab-RFID-Library) to view our collection of tags.
@@ -6,6 +7,8 @@ Please visit the [Bambu Lab RFID Library Repository](https://github.com/queengoo
 [![Link to Discord](https://img.shields.io/badge/Discord-join_now-blue?style=flat-square&logo=discord&logoColor=white&label=Discord&color=blue)](https://discord.gg/zVfCVubwr7)
 
 # Table of contents
+
+<!-- prettier-ignore-start -->
 
 <!--ts-->
    * [Project Summary](#project-summary)
@@ -21,6 +24,8 @@ Please visit the [Bambu Lab RFID Library Repository](https://github.com/queengoo
    * [RFID Tag Cloning](#rfid-tag-cloning)
    * [Reverse engineering RFID Board](#reverse-engineering-rfid-board)
 <!--te-->
+
+<!-- prettier-ignore-end -->
 
 ## Project Summary
 
@@ -77,7 +82,7 @@ For a description of the blocks of a Bambu Lab RFID tag, see [docs/BambuLabRfid.
 
 For a description of the blocks of a Creality RFID tag, see [docs/CrealityRfid.md](./docs/CrealityRfid.md).
 
-An open-source standard proposal, OpenTag, is being incubated in this repository.  For a description of the standard, see [docs/OpenTag.md](./docs/OpenTag.md).
+An open-source standard proposal, OpenTag, is being incubated in this repository. For a description of the standard, see [docs/OpenTag.md](./docs/OpenTag.md).
 
 ## How do RFID tags work?
 

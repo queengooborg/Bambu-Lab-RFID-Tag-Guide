@@ -7,6 +7,9 @@ This guide is written for the Proxmark3, however this may also be performed with
 > This guide comes with **ABSOLUTELY NO WARRANTY.** Proceed at your own risk!
 
 # Table of contents
+
+<!-- prettier-ignore-start -->
+
 <!--ts-->
    * [Requirements](#requirements)
    * [Compatible RFID tags - By generation](#compatible-rfid-tags---by-generation)
@@ -15,6 +18,8 @@ This guide is written for the Proxmark3, however this may also be performed with
       * [Gen 4 FUID](#gen-4-fuid)
       * [Gen 4 UFUID](#gen-4-ufuid)
 <!--te-->
+
+<!-- prettier-ignore-end -->
 
 ## Requirements
 
@@ -52,13 +57,14 @@ To identify the type of tag you have, place your Proxmark3 on a tag, launch `pm3
 hf mf info
 ```
 
-The tag type can be identified based upon its magic capabilities.  Note that if the tag reports no magic capabilities, it is either incompatible or has already been locked.
+The tag type can be identified based upon its magic capabilities. Note that if the tag reports no magic capabilities, it is either incompatible or has already been locked.
 
 ### Gen 4 FUID
 
-FUIDs are marketed as "write once UID".  They have a default UID of `AA55C396` and will allow writes to block 0 in this state. Once the UID is changed, the tag will be locked.
+FUIDs are marketed as "write once UID". They have a default UID of `AA55C396` and will allow writes to block 0 in this state. Once the UID is changed, the tag will be locked.
 
 An unlocked tag will have the following magic capabilities:
+
 - Gen 2 / CUID
 - Gen 4 GDM / USCUID ( Gen4 Magic Wakeup )
 - Write Once / FUID
@@ -69,9 +75,10 @@ To write a dump to the tag, run one of the following commands in `pm3` (replace 
 hf mf restore --force -f /path/to/dump.bin
 ```
 
-You can verify that the tag has been successfully written by running `hf mf info` again.  The UID should now match the UID of your dump.
+You can verify that the tag has been successfully written by running `hf mf info` again. The UID should now match the UID of your dump.
 
 If you wish to perform a full content verification, you can run the following command:
+
 ```
 hf mf dump --ns
 ```
@@ -94,14 +101,15 @@ To write a dump to the tag, run one of the following commands in `pm3` (replace 
 hf mf cload -f /path/to/dump.bin
 ```
 
-You can verify that the tag has been successfully written by running `hf mf info` again.  The UID should now match the UID of your dump.
+You can verify that the tag has been successfully written by running `hf mf info` again. The UID should now match the UID of your dump.
 
 If you wish to perform a full content verification, you can run the following command:
+
 ```
 hf mf dump --ns
 ```
 
-Before you can use a UFUID tag on the AMS, you will need to seal the UFUID tag by issuing the following commands, otherwise it will respond to Magic Card Gen1 commands which the AMS will identify and ignore the tag. 
+Before you can use a UFUID tag on the AMS, you will need to seal the UFUID tag by issuing the following commands, otherwise it will respond to Magic Card Gen1 commands which the AMS will identify and ignore the tag.
 
 ```
 hf 14a raw -a -k -b 7 40
@@ -110,4 +118,4 @@ hf 14a raw -k -c e100
 hf 14a raw -c 85000000000000000000000000000008
 ```
 
-The tag should now display no magic capabilities when running `hf mf info`.  Your UFUID tag is now written, locked and ready to use.
+The tag should now display no magic capabilities when running `hf mf info`. Your UFUID tag is now written, locked and ready to use.

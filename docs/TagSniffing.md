@@ -127,7 +127,9 @@ You must place your Proxmark3 device between the reader and the spool.
            - If you want to save your trace to avoid re-sniffing, use `trace save -f <trace-name>` and `trace load -f <trace-name>`
 
          - Run `hf mf fchk --1k -f myDictionary` to test your keys
+
            - Example Output (showing 11/16 keys discovered):
+
              ```
              [+] found keys:
 

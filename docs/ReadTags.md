@@ -8,12 +8,16 @@ If you have a Proxmark3 device, the easiest way to scan tags is using the built-
 
 # Table of contents
 
+<!-- prettier-ignore-start -->
+
 <!--ts-->
    * [Dumping Tags using Proxmark3](#dumping-tags-using-proxmark3)
    * [Deriving the keys](#deriving-the-keys)
    * [Proxmark3 fm11rf08s recovery script (legacy method)](#proxmark3-fm11rf08s-recovery-script-legacy-method)
    * [Sniffing the tag data with a Proxmark3 (legacy method)](#sniffing-the-tag-data-with-a-proxmark3-legacy-method)
 <!--te-->
+
+<!-- prettier-ignore-end -->
 
 ## Dumping Tags using Proxmark3
 
@@ -57,7 +61,7 @@ Then, use the keys file to extract the data from the RFID tag:
   3. Run `hf mf dump -k ./keys.dic` to dump the RFID tag's contents
 - Flipper Zero
   1. Open the qFlipper program and connect your Flipper to your computer
-    - You may also connect the SD card directly to your computer
+  - You may also connect the SD card directly to your computer
   2. Navigate to `SD Card/nfc/assets/`
   3. Copy the `mf_classic_dict_user.nfc` file to your computer
   4. Copy the contents of `keys.dic` to `mf_classic_dict_user.nfc`
