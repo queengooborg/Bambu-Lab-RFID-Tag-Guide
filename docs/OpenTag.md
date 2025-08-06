@@ -12,19 +12,22 @@ OpenTag aims to standardize the following:
 <img src="images/SpoolTag.jpg" height=300>
 
 # Table of Contents
+<!--ts-->
 * [Backers](#backers)
-* [Why RFID](#why-rfid)
-* [OpenTag Standards](#opentag-standards)
-    * [Hardware Standard](#hardware-standard)
-    * [Mechanical Standard](#mechanical-standard)
-    * [Data Structure Standard](#data-structure-standard)
-    * [Web API Standard](#web-api-standard)
+* [Why RFID?](#why-rfid)
 * [Add RFID support to your printer](#add-rfid-support-to-your-printer)
-* [OpenTag Consortium](#opentag-consortium)
-    * [Voting Members](#voting-members)
-    * [Non-Voting Members](#non-voting-members)
-* [Previous Considerations](#previous-considerations)
-    
+* [OpenTag Standards](#opentag-standards)
+   * [Hardware Standard](#hardware-standard)
+   * [Mechanical Standard](#mechanical-standard)
+   * [Data Structure Standard](#data-structure-standard)
+      * [Memory Map - Open Tag Lite](#memory-map---open-tag-lite)
+      * [Memory Map - Extended Data](#memory-map---extended-data)
+      * [Web API Standard](#web-api-standard)
+   * [OpenTag Consortium](#opentag-consortium)
+      * [Voting Members](#voting-members)
+      * [Non-Voting Members](#non-voting-members)
+   * [Previous Considerations](#previous-considerations)
+<!--te-->
 # Backers
 These are companies that are implementing OpenTag into their printers, filament, add-ons, etc.  If you would like to join this list, please open an Issue on GitHub.
 * Filament Manufacturers (Sorted by date backed):
