@@ -82,7 +82,7 @@ For a description of the blocks of a Bambu Lab RFID tag, see [docs/BambuLabRfid.
 
 For a description of the blocks of a Creality RFID tag, see [docs/CrealityRfid.md](./docs/CrealityRfid.md).
 
-An open-source standard proposal, OpenTag, is being incubated in this repository. For a description of the standard, see [docs/OpenTag.md](./docs/OpenTag.md).
+An open-source standard proposal, OpenTag, was previously being incubated in this repository. It has since moved to its own repository. For a description of the standard, see https://github.com/queengooborg/OpenTag.
 
 ## How do RFID tags work?
 
