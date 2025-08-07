@@ -10,7 +10,7 @@ OpenTag aims to standardize the following:
 - **Data Structure** - What data should be stored on the RFID tag, and how that data should be formatted
 - **Web API** - How extended data should be formatted when an optional online spool lookup is requested
 
-<img src="images/SpoolTag.jpg" height=300>
+<img src="../images/SpoolTag.jpg" height=300>
 
 # Table of Contents
 
@@ -70,8 +70,8 @@ This standard was designed to be simple to implement in firmware. You will need 
 
 RFID support can theoretically be added to any printer using off-the-shelf RFID Modules such as the PN532 (as low as $3). This module communicates over SPI.
 
-<img src="images/PN532-Reader-Blue.png" width=200>
-<img src="images/PN532-Reader-Red.png" width=200>
+<img src="../images/PN532-Reader-Blue.png" width=200>
+<img src="../images/PN532-Reader-Red.png" width=200>
 
 Did you make a design to add RFID to your printer? Let us know so we can link to it here! Designs can be 3D models, or firmware.
 
@@ -81,7 +81,7 @@ Did you make a design to add RFID to your printer? Let us know so we can link to
 
 NFC NTAG216: 13.56 MHz 888-byte tags
 
-<img src="images/mifareclassicsticker.jpg" width="200">
+<img src="../images/mifareclassicsticker.jpg" width="200">
 
 NTAG216 tags are cheap and common. They allow 888 bytes of data, which is plenty of space to store required information. NFC tags such as NTAG216 can be read/written with smartphones. 13.56 MHz RFID modules are plentiful, low-cost and Arduino-compatible, allowing for easy integration.
 
@@ -97,7 +97,7 @@ NFC NTAG216 was chosen over MIFARE 1K Classic tags, which is what the Bambu AMS 
   - For spool sides thicker than 4mm, there must be a cutout to embed the tag, or the tag should be fixed to the outside of the spool
 - Two tags should be used, one on each end of the spool, directly across from each other
 
-<img src="images/TagLocation.png" width="400">
+<img src="../images/TagLocation.png" width="400">
 
 ## Data Structure Standard
 
