@@ -1,3 +1,1 @@
-File Moved
-
-See [OpenTag.md](./OpenTag.md)
+This file has moved to https://github.com/queengooborg/OpenTag3D
