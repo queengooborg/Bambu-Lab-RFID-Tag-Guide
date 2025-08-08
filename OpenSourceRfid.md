@@ -1,1 +1,1 @@
-This file has moved to https://github.com/queengooborg/OpenTag3D
+This file has moved to https://opentag3d.info/
