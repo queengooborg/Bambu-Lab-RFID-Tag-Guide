@@ -45,7 +45,7 @@ This is a research group dedicated to documenting the data structures used by Ba
 
 ### How to contribute
 
-If you have a Proxmark3 (or other RFID debugging tool), you can decrypt the contents of your Bambu Lab RFID tags and submit them via [Discord](https://discord.gg/zVfCVubwr7), or alternatively submit a Pull Request to the [Bambu Lab RFID Library Repository](https://github.com/queengooborg/Bambu-Lab-RFID-Library).
+If you have a Proxmark3 (or other RFID debugging tool), you can decrypt the contents of your Bambu Lab RFID tags and submit a Pull Request to the [Bambu Lab RFID Library Repository](https://github.com/queengooborg/Bambu-Lab-RFID-Library).
 
 A lot of the contents have been deciphered, but the more data we have, the easier it is to compare differences to learn what each byte represents and double-check our answers.
 
