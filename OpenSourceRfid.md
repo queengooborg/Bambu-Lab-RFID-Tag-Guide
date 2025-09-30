@@ -1,3 +1,1 @@
-File Moved
-
-See [OpenTag.md](./OpenTag.md)
+This file has moved to https://opentag3d.info/
