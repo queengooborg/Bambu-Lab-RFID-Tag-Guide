@@ -72,7 +72,7 @@ An unlocked tag will have the following magic capabilities:
 To write a dump to the tag, run one of the following commands in `pm3` (replace `/path/to/dump.bin` with the actual filepath of your dump):
 
 ```
-hf mf restore --force -f /path/to/dump.bin
+hf mf restore --force -f /path/to/dump.bin -k /path/to/key.bin
 ```
 
 You can verify that the tag has been successfully written by running `hf mf info` again. The UID should now match the UID of your dump.

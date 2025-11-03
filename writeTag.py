@@ -41,6 +41,13 @@ def main():
         #Get the tracename/filepath from user
         tagdump = input("Enter the path to the tag dump you wish to write: ").replace("\\ ", " ")
 
+    if len(sys.argv) > 2:
+        # If the user included a second argument, assume it's the path to the key file
+        keydump = os.path.abspath(sys.argv[2])
+    else:
+        #Get the keyname/filepath from user
+        keydump = input("Enter the path to the tag's key dump you wish to write: ").replace("\\ ", " ")
+
     print()
     print("Start by placing your Proxmark3 device onto the tag you")
     print("wish to write to, then press Enter. I'll wait for you.")
@@ -64,7 +71,7 @@ def main():
         exit(0)
 
     print("Writing tag data now...")
-    writeTag(tagdump, tagtype)
+    writeTag(tagdump, keydump, tagtype)
 
     print()
     print("Writing complete! Your tag should now register on the AMS.")
@@ -96,10 +103,10 @@ def getTagType():
     
     raise RuntimeError("Tag is not a compatible type (must be Gen 4 FUID or UFUID)")
 
-def writeTag(tagdump, tagtype):
+def writeTag(tagdump, keydump, tagtype):
     if tagtype == "Gen 4 FUID":
         # Load tag dump onto RFID tag
-        output = run_command([pm3Location / pm3Command, "-c", f"hf mf restore --force -f {tagdump.replace(" ", "\\ ")}"], pipe=False)
+        output = run_command([pm3Location / pm3Command, "-c", f"hf mf restore --force -f {tagdump.replace(" ", "\\ ")} -k {keydump.replace(" ", "\\ ")}"], pipe=False)
         return
 
     if tagtype == "Gen 4 UFUID":
