@@ -1,2 +1,4 @@
 *.dic
 *.pyc
+*.nfc
+__pycache__/

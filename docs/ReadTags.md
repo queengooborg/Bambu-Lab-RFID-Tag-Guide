@@ -11,10 +11,13 @@ If you have a Proxmark3 device, the easiest way to scan tags is using the built-
 <!-- prettier-ignore-start -->
 
 <!--ts-->
-   * [Dumping Tags using Proxmark3](#dumping-tags-using-proxmark3)
-   * [Deriving the keys](#deriving-the-keys)
-   * [Proxmark3 fm11rf08s recovery script (legacy method)](#proxmark3-fm11rf08s-recovery-script-legacy-method)
-   * [Sniffing the tag data with a Proxmark3 (legacy method)](#sniffing-the-tag-data-with-a-proxmark3-legacy-method)
+- [Hacking a Bambu Lab Tag and readout of its data](#hacking-a-bambu-lab-tag-and-readout-of-its-data)
+- [Table of contents](#table-of-contents)
+  - [Dumping Tags using Proxmark3](#dumping-tags-using-proxmark3)
+  - [Deriving the keys](#deriving-the-keys)
+    - [Using Flipper Zero (step-by-step)](#using-flipper-zero-step-by-step)
+  - [Proxmark3 fm11rf08s recovery script (legacy method)](#proxmark3-fm11rf08s-recovery-script-legacy-method)
+  - [Sniffing the tag data with a Proxmark3 (legacy method)](#sniffing-the-tag-data-with-a-proxmark3-legacy-method)
 <!--te-->
 
 <!-- prettier-ignore-end -->
@@ -67,6 +70,34 @@ Then, use the keys file to extract the data from the RFID tag:
   4. Copy the contents of `keys.dic` to `mf_classic_dict_user.nfc`
   5. Copy `mf_classic_dict_user.nfc` back onto your Flipper
   6. Use the NFC app to scan your tag
+
+### Using Flipper Zero (step-by-step)
+
+If you only have a Flipper Zero, follow these exact steps to derive Bambu Lab tag keys and use them to read a tag:
+
+- **Obtain UID:** Open the NFC app on the Flipper and scan the tag. The UID will be shown on-screen (hex, e.g. `04AABBCC`).
+- **Generate keys on your PC (Windows):** Copy the UID and run in a terminal where this repo lives:
+
+```powershell
+python deriveKeys.py 04AABBCC > keys.dic
+```
+
+- **Inspect `keys.dic`:** The file will contain one derived key per line (uppercase hex). Example:
+
+```
+A1B2C3D4E5F60123456789ABCDEF0123
+...
+```
+
+- **Install keys on the Flipper:** two options
+  - *SD card method (recommended):* eject the Flipper's SD card, mount it on your PC, open `nfc/assets/mf_classic_dict_user.nfc` in a text editor, append the lines from `keys.dic` (one key per line), save, re-insert the SD card.
+  - *qFlipper method:* connect your Flipper with qFlipper, open the built-in file browser, download `nfc/assets/mf_classic_dict_user.nfc`, append `keys.dic` contents, and upload the file back.
+
+- **Backup first:** always keep a copy of the original `mf_classic_dict_user.nfc` before editing.
+
+- **Scan the tag using the Flipper:** Open the NFC app -> choose `MIFARE Classic` read/crack action (or the appropriate action your Flipper firmware shows). The Flipper will try dictionary keys (including your uploaded ones) and should be able to read the tag if a matching key is present.
+
+- **If the Flipper shows a "Nested Dictionary (Backdoor)" step:** you can skip it and allow the dictionary-only attempt for speed; if dictionary-only fails, try the backdoor/sniffing options if available.
 
 ## Proxmark3 fm11rf08s recovery script (legacy method)
 
