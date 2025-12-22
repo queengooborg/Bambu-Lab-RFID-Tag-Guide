@@ -1,0 +1,2 @@
+# Minimal Python dependencies for the project
+pycryptodome
