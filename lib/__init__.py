@@ -28,7 +28,7 @@ def run_command(command, pipe=True):
         result = subprocess.run(command, shell=os.name == 'nt', capture_output=pipe)
         # Check the return code to determine if the command was successful
         if result.returncode == 0 or result.returncode == 1:
-            return result.stdout.decode("utf-8").strip() if pipe else ""
+            return result.stdout.decode("utf-8").strip().replace('\r\n', '\n') if pipe else ""
         return None
     except Exception as e:
         return None
