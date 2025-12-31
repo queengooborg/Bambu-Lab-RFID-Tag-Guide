@@ -3,11 +3,11 @@
 # Python script to generate keys for Bambu Lab RFID tags
 # Created for https://github.com/Bambu-Research-Group/RFID-Tag-Guide
 # Written by thekakester (https://github.com/thekakester) and Vinyl Da.i'gyu-Kazotetsu (www.queengoob.org), 2024
-# Requires: pycryptodomex
+# Requires: pycryptodome
 
 import sys
-from Cryptodome.Protocol.KDF import HKDF
-from Cryptodome.Hash import SHA256
+from Crypto.Protocol.KDF import HKDF
+from Crypto.Hash import SHA256
 
 if not sys.version_info >= (3, 6):
    print("Python 3.6 or higher is required!")
