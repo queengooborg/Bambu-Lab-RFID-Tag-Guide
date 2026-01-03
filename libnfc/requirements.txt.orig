@@ -1,6 +1,0 @@
-wheel==0.45.1
-libusb1==3.3.1
-ndeflib==0.3.3
-pyDes==2.0.1
-pynfc==0.1.1
-pyserial==3.5
