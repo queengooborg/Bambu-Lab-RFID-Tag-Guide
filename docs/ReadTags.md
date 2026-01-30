@@ -21,12 +21,12 @@ If you have a Proxmark3 device, the easiest way to scan tags is using the built-
 
 ## Dumping Tags using Proxmark3
 
-As of Proxmark3 v4.20469, a new command has been implemented to scan a Bambu Lab RFID tag and automatically derive the keys, offering a fast, one-command way to scan tags.
+As of Proxmark3 v4.207XXX, a new command has been implemented to scan and automatically derive the keys, offering a fast, one-command way to scan tags.
 
 To scan a tag with this method, place the Proxmark3 device on the tag and run `pm3` in the terminal. Then, in the `pm3` prompt, run:
 
 ```
-hf mf bambukeys -r -d
+hf mf keygen -r -d -k 4
 hf mf dump
 ```
 
