@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
+
+# -*- coding: utf-8 -*-
+
+# Python script to dump tags using an NFC reader connected to the computer
+# Created for https://github.com/Bambu-Research-Group/RFID-Tag-Guide
+# Written by scourge411, 2026
+
 import argparse
 import pynfc.nfc as nfcmod
 
 from pynfc import Nfc, TimeoutException
-from Crypto.Protocol.KDF import HKDF
-from Crypto.Hash import SHA256
 
-SALT = bytes([0x9a,0x75,0x9c,0xf2,0xc4,0xf7,0xca,0xff,0x22,0x2c,0xb9,0x76,0x9b,0x41,0xbc,0x96])
+from deriveKeys import kdf
 
 SECNUM = 16
 BPS = 4
@@ -15,20 +20,13 @@ dump = {}
 dumped_ids = []
 warned_ids = []
 
-def generate_keys(uid):
-    keys_a=HKDF(uid, 6, SALT, SHA256, 16, context=b"RFID-A\0")
-    keys_b=HKDF(uid, 6, SALT, SHA256, 16, context=b"RFID-B\0")
-
-    return {'A':keys_a,'B':keys_b}
-
-
 def build_auth_tag(sector, keys):
     tag_struct = nfcmod.mifare_classic_tag()
 
     last_block = (sector + 1) * BPS - 1
 
-    tag_struct.amb[last_block].mbt.abtKeyA = (nfcmod.uint8_t * 6)(*keys['A'][sector])
-    tag_struct.amb[last_block].mbt.abtKeyB = (nfcmod.uint8_t * 6)(*keys['B'][sector])
+    tag_struct.amb[last_block].mbt.abtKeyA = (nfcmod.uint8_t * 6)(*keys[0][sector])
+    tag_struct.amb[last_block].mbt.abtKeyB = (nfcmod.uint8_t * 6)(*keys[1][sector])
 
     return tag_struct
 
@@ -112,7 +110,7 @@ def main():
 
             if not dump.get(tag.uid):
                 print(f"Tag UID: {tag.uid.decode()}")
-                dump[tag.uid]={'sector':0,'data':list(), 'keys': generate_keys(bytes.fromhex(tag.uid.decode()))}
+                dump[tag.uid]={'sector':0,'data':list(), 'keys': kdf(bytes.fromhex(tag.uid.decode()))}
 
             if not tag.uid in dumped_ids and dump[tag.uid]['sector']==SECNUM:
                 print(f'Tag {tag.uid.decode()} fully dumped; remove tag.')

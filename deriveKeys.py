@@ -15,11 +15,11 @@ if not sys.version_info >= (3, 6):
 
 def kdf(uid):
     salt = bytes([0x9a,0x75,0x9c,0xf2,0xc4,0xf7,0xca,0xff,0x22,0x2c,0xb9,0x76,0x9b,0x41,0xbc,0x96])
-    return HKDF(uid, 6, salt, SHA256, 16, context=b"RFID-A\0") + HKDF(uid, 6, salt, SHA256, 16, context=b"RFID-B\0")
+    return [HKDF(uid, 6, salt, SHA256, 16, context=b"RFID-A\0"), HKDF(uid, 6, salt, SHA256, 16, context=b"RFID-B\0")]
 
 if __name__ == '__main__':
     uid = bytes.fromhex(sys.argv[1])
     keys = kdf(uid)
 
-    output = [a.hex().upper() for a in keys]
+    output = [k.hex().upper() for k in [*keys[0], *keys[1]]]
     print("\n".join(output))

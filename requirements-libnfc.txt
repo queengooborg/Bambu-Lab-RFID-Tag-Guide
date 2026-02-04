@@ -3,4 +3,3 @@ ndeflib
 pyDes
 pynfc
 pyserial
-pycryptodome
