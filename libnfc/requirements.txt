@@ -1,0 +1,6 @@
+libusb1
+ndeflib
+pyDes
+pynfc
+pyserial
+pycryptodome
