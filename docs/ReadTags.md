@@ -26,11 +26,19 @@ As of Proxmark3 v4.20469, a new command has been implemented to scan a Bambu Lab
 To scan a tag with this method, place the Proxmark3 device on the tag and run `pm3` in the terminal. Then, in the `pm3` prompt, run:
 
 ```
-hf mf bambukeys -r -d
+hf mf keygen -r -d -k 4
 hf mf dump
 ```
 
 This process should only take a few seconds. Once the process is complete, the dump will be saved to your current working directory.
+
+> [!NOTE]
+> The command was changed in Proxmark3 v4.21128. In previous versions, the commands were the following:
+>
+> ```
+> hf mf bambukeys -r -d
+> hf mf dump
+> ```
 
 ## Deriving the keys
 
