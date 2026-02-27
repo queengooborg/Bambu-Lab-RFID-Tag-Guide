@@ -12,6 +12,7 @@ If you have a Proxmark3 device, the easiest way to scan tags is using the built-
 
 <!--ts-->
    * [Dumping Tags using Proxmark3](#dumping-tags-using-proxmark3)
+   * [Reading tag data using the Flipper Zero](#reading-tag-data-using-the-flipper-zero)
    * [Deriving the keys](#deriving-the-keys)
    * [Proxmark3 fm11rf08s recovery script (legacy method)](#proxmark3-fm11rf08s-recovery-script-legacy-method)
    * [Sniffing the tag data with a Proxmark3 (legacy method)](#sniffing-the-tag-data-with-a-proxmark3-legacy-method)
@@ -39,6 +40,13 @@ This process should only take a few seconds. Once the process is complete, the d
 > hf mf bambukeys -r -d
 > hf mf dump
 > ```
+
+## Reading tag data using the Flipper Zero
+
+If you have a Flipper Zero, the Flipper is able to read tag data directly without needing to derive keys. To read a tag, simply use the NFC app and read the tag as normal!
+
+> [!IMPORTANT]
+> The Flipper Zero only reads the data blocks, not the keys. In order to reuse the tag data and write it to a tag for use on the AMS, you will need to splice in the keys using derivation (see below).
 
 ## Deriving the keys
 

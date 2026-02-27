@@ -1,7 +1,8 @@
 # RFID Tag Cloning
 
 This document serves as a guide for copying tag dumps onto new tags.
-This guide is written for the Proxmark3, however this may also be performed with other devices like the Flipper Zero.
+
+This guide is written for the Proxmark3. Some of the described manual processes may be performable on the Flipper Zero, but we recommend using the Proxmark3 for better troubleshooting.
 
 > [!WARNING]
 > This guide comes with **ABSOLUTELY NO WARRANTY.** Proceed at your own risk!
