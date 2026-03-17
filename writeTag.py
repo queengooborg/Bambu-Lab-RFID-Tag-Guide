@@ -34,9 +34,16 @@ def main():
     # Run setup
     setup()
 
+    serial = None
+
     if len(sys.argv) > 1:
-        # If the user included an argument, assume it's the path to the tracefile
-        tagdump = os.path.abspath(sys.argv[1])
+        # If the user included an argument, check if it is a directoy
+        if os.path.isdir(sys.argv[1]):
+            serial = (os.path.basename(os.path.dirname(sys.argv[1])))
+            tagdump = os.path.abspath(sys.argv[1] + "hf-mf-" + serial + "-dump.bin")
+        else:
+            # If not a directory assume it's the path to the tracefile
+            tagdump = os.path.abspath(sys.argv[1])
     else:
         #Get the tracename/filepath from user
         tagdump = input("Enter the path to the tag dump you wish to write: ").replace("\\ ", " ")
@@ -45,8 +52,20 @@ def main():
         # If the user included a second argument, assume it's the path to the key file
         keydump = os.path.abspath(sys.argv[2])
     else:
-        #Get the keyname/filepath from user
-        keydump = input("Enter the path to the tag's key dump you wish to write: ").replace("\\ ", " ")
+        if serial is not None:
+            # If setial is set, automatically set keydump
+            keydump = os.path.abspath(sys.argv[1] + "hf-mf-" + serial + "-key.bin")
+        else:
+            #Get the keyname/filepath from user
+            keydump = input("Enter the path to the tag's key dump you wish to write: ").replace("\\ ", " ")
+
+    print()
+    print("Tag Dump file: "+tagdump)
+    print("Tag Key file: "+keydump)
+    confirm = input("Are these the correct files (y/N)? ")
+    if confirm.lower() not in ["y", "yes"]:
+        print("Files not correct, exiting")
+        exit(0)
 
     print()
     print("Start by placing your Proxmark3 device onto the tag you")
