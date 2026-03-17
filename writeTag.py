@@ -89,6 +89,8 @@ def getTagType():
 
     match = re.search(rf"\[=\] --- Magic Tag Information\n(\[=\] <n/a>\n|{cap_re}+)", output)
     if not match:
+        match = re.search(rf"\[=\] --- Magic Tag Information\n\n(\[=\] <n/a>\n|{cap_re}+)", output)
+    if not match:
         raise RuntimeError("Could not obtain magic tag information")
 
     if "[=] <n/a>" in match.group(1):
