@@ -62,10 +62,6 @@ def main():
     print()
     print("Tag Dump file: "+tagdump)
     print("Tag Key file: "+keydump)
-    confirm = input("Are these the correct files (y/N)? ")
-    if confirm.lower() not in ["y", "yes"]:
-        print("Files not correct, exiting")
-        exit(0)
 
     if not os.path.isfile(tagdump):
         print("Tag dump file not found")
