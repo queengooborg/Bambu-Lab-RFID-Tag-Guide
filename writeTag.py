@@ -98,7 +98,14 @@ def main():
         exit(0)
 
     print("Writing tag data now...")
-    writeTag(tagdump, keydump, tagtype)
+    try:
+        if tagtype == "Gen 4 UFUID":
+            writeTag(tagdump, serial, tagtype)
+        else:
+            writeTag(tagdump, keydump, tagtype)
+    except Exception as err:
+        sys.stderr.write('ERROR: %sn \n' % str(err))
+        exit(1)
 
     print()
     print("Writing complete! Your tag should now register on the AMS.")
@@ -137,8 +144,42 @@ def writeTag(tagdump, keydump, tagtype):
         return
 
     if tagtype == "Gen 4 UFUID":
-        # Load tag dump onto RFID tag, then immediately seal
-        output = run_command([pm3Location / pm3Command, "-c", f"hf mf cload -f \"{tagdump}\"; hf 14a raw -a -k -b 7 40; hf 14a raw -k 43; hf 14a raw -k -c e100; hf 14a raw -c 85000000000000000000000000000008"], pipe=False)
+        # Load tag dump onto RFID tag
+        output = run_command([pm3Location / pm3Command, "-c", f"hf mf cload -f \"{tagdump}\";"], pipe=False)
+
+        # Verify UID is correct
+        output = run_command([pm3Location / pm3Command, "-c", f"hf mf info"])
+        match = re.search(rf"\[\+\]  UID: (.. .. .. ..)", output)
+        if not match:
+            raise RuntimeError("Tag UID read error")
+
+        print()
+        print("Tag UID is: " + match.group(1).replace(" ", ""))
+
+        if match.group(1).replace(" ", "") != keydump:
+            print("Tag UID should be: " + keydump)
+            print()
+            confirm = input("Tag UID is not correct. Try again (y/N)? ")
+            if confirm.lower() not in ["y", "yes"]:
+                print("Retry denied, exiting")
+                exit(0)
+            writeTag(tagdump, keydump, tagtype)
+
+        # Seal tag
+        print()
+        print("=========== WARNING! == WARNING! == WARNING! ===========")
+        print("This is your last chance to avoid LOCKING the tag.")
+        print("LOCKING is required to use tags with Bambu.")
+        print()
+        print("This process is IRREVERSIBLE.")
+        print("========================================================")
+        print()
+
+        confirm = input("Write lock tag (y/N)? ")
+        if confirm.lower() not in ["y", "yes"]:
+            print("Tag has not been locked, it is not usable with Bambu")
+            exit(0)
+        output = run_command([pm3Location / pm3Command, "-c", f"hf 14a raw -a -k -b 7 40; hf 14a raw -k 43; hf 14a raw -k -c e100; hf 14a raw -c 85000000000000000000000000000008"])
 
 
 if __name__ == "__main__":
