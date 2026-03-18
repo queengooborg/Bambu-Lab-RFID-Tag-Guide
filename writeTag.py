@@ -8,6 +8,7 @@ import subprocess
 import os
 import re
 import sys
+import struct
 from pathlib import Path
 
 from lib import strip_color_codes, get_proxmark3_location, run_command, testCommands
@@ -34,13 +35,13 @@ def main():
     # Run setup
     setup()
 
-    serial = None
+    uid = None
 
     if len(sys.argv) > 1:
         # If the user included an argument, check if it is a directoy
         if os.path.isdir(sys.argv[1]):
-            serial = (os.path.basename(os.path.dirname(sys.argv[1])))
-            tagdump = os.path.abspath(sys.argv[1] + "hf-mf-" + serial + "-dump.bin")
+            uid = (os.path.basename(os.path.dirname(sys.argv[1])))
+            tagdump = os.path.abspath(sys.argv[1] + "hf-mf-" + uid + "-dump.bin")
         else:
             # If not a directory assume it's the path to the tracefile
             tagdump = os.path.abspath(sys.argv[1])
@@ -52,9 +53,9 @@ def main():
         # If the user included a second argument, assume it's the path to the key file
         keydump = os.path.abspath(sys.argv[2])
     else:
-        if serial is not None:
+        if uid is not None:
             # If setial is set, automatically set keydump
-            keydump = os.path.abspath(sys.argv[1] + "hf-mf-" + serial + "-key.bin")
+            keydump = os.path.abspath(sys.argv[1] + "hf-mf-" + uid + "-key.bin")
         else:
             #Get the keyname/filepath from user
             keydump = input("Enter the path to the tag's key dump you wish to write: ").replace("\\ ", " ")
@@ -100,7 +101,9 @@ def main():
     print("Writing tag data now...")
     try:
         if tagtype == "Gen 4 UFUID":
-            writeTag(tagdump, serial, tagtype)
+            with open(tagdump, "rb") as f:
+                uid = "".join([f"{byte:02X}" for byte in f.read(4)])
+            writeTag(tagdump, uid, tagtype)
         else:
             writeTag(tagdump, keydump, tagtype)
     except Exception as err:
