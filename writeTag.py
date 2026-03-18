@@ -79,10 +79,9 @@ def main():
 
     try:
         tagtype = getTagType()
-        return 0
     except Exception as err:
         sys.stderr.write('ERROR: %sn \n' % str(err))
-        return 1
+        exit(1)
 
     print()
     print("=========== WARNING! == WARNING! == WARNING! ===========")
@@ -115,9 +114,7 @@ def getTagType():
 
     cap_re = r"(?:\[\+\] Magic capabilities\.\.\. ([()/\w\d ]+)\n)"
 
-    match = re.search(rf"\[=\] --- Magic Tag Information\n(\[=\] <n/a>\n|{cap_re}+)", output)
-    if not match:
-        match = re.search(rf"\[=\] --- Magic Tag Information\n\n(\[=\] <n/a>\n|{cap_re}+)", output)
+    match = re.search(rf"\[=\] --- Magic Tag Information\n+(\[=\] <n/a>\n|{cap_re}+)", output)
     if not match:
         raise RuntimeError("Could not obtain magic tag information")
 
