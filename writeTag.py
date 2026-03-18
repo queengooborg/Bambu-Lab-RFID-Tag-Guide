@@ -77,7 +77,12 @@ def main():
 
     input()
 
-    tagtype = getTagType()
+    try:
+        tagtype = getTagType()
+        return 0
+    except Exception as err:
+        sys.stderr.write('ERROR: %sn \n' % str(err))
+        return 1
 
     print()
     print("=========== WARNING! == WARNING! == WARNING! ===========")
