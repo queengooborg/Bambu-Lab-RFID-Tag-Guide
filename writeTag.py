@@ -67,6 +67,14 @@ def main():
         print("Files not correct, exiting")
         exit(0)
 
+    if not os.path.isfile(tagdump):
+        print("Tag dump file not found")
+        exit(66)
+    if not os.path.isfile(keydump):
+        print("Tag key file not found")
+        exit(66)
+
+
     print()
     print("Start by placing your Proxmark3 device onto the tag you")
     print("wish to write to, then press Enter. I'll wait for you.")
