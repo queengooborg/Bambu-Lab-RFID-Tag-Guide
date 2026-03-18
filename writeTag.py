@@ -131,12 +131,12 @@ def getTagType():
 def writeTag(tagdump, keydump, tagtype):
     if tagtype == "Gen 4 FUID":
         # Load tag dump onto RFID tag
-        output = run_command([pm3Location / pm3Command, "-c", f"hf mf restore --force -f {tagdump.replace(" ", "\\ ")} -k {keydump.replace(" ", "\\ ")}"], pipe=False)
+        output = run_command([pm3Location / pm3Command, "-c", f"hf mf restore --force -f \"{tagdump}\" -k {keydump.replace(" ", "\\ ")}"], pipe=False)
         return
 
     if tagtype == "Gen 4 UFUID":
         # Load tag dump onto RFID tag, then immediately seal
-        output = run_command([pm3Location / pm3Command, "-c", f"hf mf cload -f {tagdump.replace(" ", "\\ ")}; hf 14a raw -a -k -b 7 40; hf 14a raw -k 43; hf 14a raw -k -c e100; hf 14a raw -c 85000000000000000000000000000008"], pipe=False)
+        output = run_command([pm3Location / pm3Command, "-c", f"hf mf cload -f \"{tagdump}\"; hf 14a raw -a -k -b 7 40; hf 14a raw -k 43; hf 14a raw -k -c e100; hf 14a raw -c 85000000000000000000000000000008"], pipe=False)
 
 
 if __name__ == "__main__":
