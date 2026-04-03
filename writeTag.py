@@ -8,6 +8,7 @@ import subprocess
 import os
 import re
 import sys
+import struct
 from pathlib import Path
 
 from lib import strip_color_codes, get_proxmark3_location, run_command, testCommands
@@ -34,9 +35,16 @@ def main():
     # Run setup
     setup()
 
+    uid = None
+
     if len(sys.argv) > 1:
-        # If the user included an argument, assume it's the path to the tracefile
-        tagdump = os.path.abspath(sys.argv[1])
+        # If the user included an argument, check if it is a directoy
+        if os.path.isdir(sys.argv[1]):
+            uid = (os.path.basename(os.path.dirname(sys.argv[1])))
+            tagdump = os.path.abspath(sys.argv[1] + "hf-mf-" + uid + "-dump.bin")
+        else:
+            # If not a directory assume it's the path to the tracefile
+            tagdump = os.path.abspath(sys.argv[1])
     else:
         #Get the tracename/filepath from user
         tagdump = input("Enter the path to the tag dump you wish to write: ").replace("\\ ", " ")
@@ -45,8 +53,24 @@ def main():
         # If the user included a second argument, assume it's the path to the key file
         keydump = os.path.abspath(sys.argv[2])
     else:
-        #Get the keyname/filepath from user
-        keydump = input("Enter the path to the tag's key dump you wish to write: ").replace("\\ ", " ")
+        if uid is not None:
+            # If setial is set, automatically set keydump
+            keydump = os.path.abspath(sys.argv[1] + "hf-mf-" + uid + "-key.bin")
+        else:
+            #Get the keyname/filepath from user
+            keydump = input("Enter the path to the tag's key dump you wish to write: ").replace("\\ ", " ")
+
+    print()
+    print("Tag Dump file: "+tagdump)
+    print("Tag Key file: "+keydump)
+
+    if not os.path.isfile(tagdump):
+        print("Tag dump file not found")
+        exit(66)
+    if not os.path.isfile(keydump):
+        print("Tag key file not found")
+        exit(66)
+
 
     print()
     print("Start by placing your Proxmark3 device onto the tag you")
@@ -54,7 +78,11 @@ def main():
 
     input()
 
-    tagtype = getTagType()
+    try:
+        tagtype = getTagType()
+    except Exception as err:
+        sys.stderr.write('ERROR: %sn \n' % str(err))
+        exit(1)
 
     print()
     print("=========== WARNING! == WARNING! == WARNING! ===========")
@@ -71,7 +99,16 @@ def main():
         exit(0)
 
     print("Writing tag data now...")
-    writeTag(tagdump, keydump, tagtype)
+    try:
+        if tagtype == "Gen 4 UFUID":
+            with open(tagdump, "rb") as f:
+                uid = "".join([f"{byte:02X}" for byte in f.read(4)])
+            writeTag(tagdump, uid, tagtype)
+        else:
+            writeTag(tagdump, keydump, tagtype)
+    except Exception as err:
+        sys.stderr.write('ERROR: %sn \n' % str(err))
+        exit(1)
 
     print()
     print("Writing complete! Your tag should now register on the AMS.")
@@ -87,7 +124,7 @@ def getTagType():
 
     cap_re = r"(?:\[\+\] Magic capabilities\.\.\. ([()/\w\d ]+)\n)"
 
-    match = re.search(rf"\[=\] --- Magic Tag Information\n(\[=\] <n/a>\n|{cap_re}+)", output)
+    match = re.search(rf"\[=\] --- Magic Tag Information\n+(\[=\] <n/a>\n|{cap_re}+)", output)
     if not match:
         raise RuntimeError("Could not obtain magic tag information")
 
@@ -106,12 +143,46 @@ def getTagType():
 def writeTag(tagdump, keydump, tagtype):
     if tagtype == "Gen 4 FUID":
         # Load tag dump onto RFID tag
-        output = run_command([pm3Location / pm3Command, "-c", f"hf mf restore --force -f {tagdump.replace(" ", "\\ ")} -k {keydump.replace(" ", "\\ ")}"], pipe=False)
+        output = run_command([pm3Location / pm3Command, "-c", f"hf mf restore --force -f \"{tagdump}\" -k {keydump.replace(" ", "\\ ")}"], pipe=False)
         return
 
     if tagtype == "Gen 4 UFUID":
-        # Load tag dump onto RFID tag, then immediately seal
-        output = run_command([pm3Location / pm3Command, "-c", f"hf mf cload -f {tagdump.replace(" ", "\\ ")}; hf 14a raw -a -k -b 7 40; hf 14a raw -k 43; hf 14a raw -k -c e100; hf 14a raw -c 85000000000000000000000000000008"], pipe=False)
+        # Load tag dump onto RFID tag
+        output = run_command([pm3Location / pm3Command, "-c", f"hf mf cload -f \"{tagdump}\";"], pipe=False)
+
+        # Verify UID is correct
+        output = run_command([pm3Location / pm3Command, "-c", f"hf mf info"])
+        match = re.search(rf"\[\+\]  UID: (.. .. .. ..)", output)
+        if not match:
+            raise RuntimeError("Tag UID read error")
+
+        print()
+        print("Tag UID is: " + match.group(1).replace(" ", ""))
+
+        if match.group(1).replace(" ", "") != keydump:
+            print("Tag UID should be: " + keydump)
+            print()
+            confirm = input("Tag UID is not correct. Try again (y/N)? ")
+            if confirm.lower() not in ["y", "yes"]:
+                print("Retry denied, exiting")
+                exit(0)
+            writeTag(tagdump, keydump, tagtype)
+
+        # Seal tag
+        print()
+        print("=========== WARNING! == WARNING! == WARNING! ===========")
+        print("This is your last chance to avoid LOCKING the tag.")
+        print("LOCKING is required to use tags with Bambu.")
+        print()
+        print("This process is IRREVERSIBLE.")
+        print("========================================================")
+        print()
+
+        confirm = input("Write lock tag (y/N)? ")
+        if confirm.lower() not in ["y", "yes"]:
+            print("Tag has not been locked, it is not usable with Bambu")
+            exit(0)
+        output = run_command([pm3Location / pm3Command, "-c", f"hf 14a raw -a -k -b 7 40; hf 14a raw -k 43; hf 14a raw -k -c e100; hf 14a raw -c 85000000000000000000000000000008"])
 
 
 if __name__ == "__main__":
